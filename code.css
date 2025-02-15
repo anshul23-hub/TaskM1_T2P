@@ -1,0 +1,32 @@
+const int pirSensorPin = 2;
+const int ledPin = 13;
+
+bool motionDetected = false;
+
+void setup() {
+   pinMode(pirSensorPin, INPUT);
+   pinMode(ledPin, OUTPUT);
+
+   digitalWrite(ledPin, LOW);
+   Serial.begin(9600);
+   Serial.println("PIR Sensor with LED Initialized");
+}
+
+void loop() {
+
+   int sensorState = digitialRead(pirSensorPin);
+   if (sensorState == HIGH)  {
+       if(!motionDetected) {
+          Serial.println("Motion dtetected! Turning LED ON.");
+          motionDetected = true;
+        }
+        digitalWrite(ledPin, HIGH);
+    } else {
+       if (motionDetected) {
+         Serial.println("No motion detected. Turning LED OFF.");
+         motionDetected = false;
+       }
+       digitalWrite(ledPin, LOW);
+    }
+  delay(100);
+}
